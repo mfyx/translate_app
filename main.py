@@ -1,10 +1,36 @@
 import sys
 from interface import *
+from gpt import *
+#from message_box import MessageBox
+
+
+def translate():
+    source_text = ui.textEdit.toPlainText()
+    source_lang = ui.comboBox.currentText()
+    target_text = ""
+    target_lang = ui.comboBox_2.currentText()
+
+    prompt = f"""Translate the {source_lang} text \
+    that is delimited by triple backticks 
+    into a language that is {target_lang}.
+    text: ```{source_text}```
+    """
+
+    print(prompt)
+
+    target_text = get_completion(prompt)
+    print(target_text)
+
+    ui.textEdit_2.setText(target_text)
+
 
 if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)  # 创建一个QApplication，也就是你要开发的软件app
-    MainWindow = QtWidgets.QMainWindow()  # 创建一个QMainWindow，用来装载你需要的各种组件、控件
-    ui = Ui_MainWindow()  # ui是Ui_MainWindow()类的实例化对象
-    ui.setupUi(MainWindow)  # 执行类中的setupUi方法，方法的参数是第二步中创建的QMainWindow
-    MainWindow.show()  # 执行QMainWindow的show()方法，显示这个QMainWindow
-    sys.exit(app.exec_())  # 使用exit()或者点击关闭按钮退出QApplicat
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+
+    ui.pushButton.clicked.connect(translate)
+
+    sys.exit(app.exec_())
